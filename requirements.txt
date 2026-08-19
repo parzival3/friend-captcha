@@ -1,0 +1,6 @@
+numpy
+Pillow
+scikit-learn
+# Coral runtime — install separately, see
+# https://coral.ai/docs/accelerator/get-started/ :
+#   python3 -m pip install --extra-index-url https://google-coral.github.io/py-repo/ pycoral tflite-runtime
