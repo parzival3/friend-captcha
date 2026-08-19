@@ -1,0 +1,54 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>CAPTCHA</title>
+<style>
+  body { font-family: Roboto, Arial, sans-serif; background:#f9f9f9;
+         display:flex; justify-content:center; padding-top:40px; }
+  .captcha { width:480px; background:#fff; border-radius:8px;
+             box-shadow:0 2px 10px rgba(0,0,0,.2); overflow:hidden; }
+  .header { background:#1a73e8; color:#fff; padding:20px; }
+  .header small { display:block; opacity:.85; }
+  .header b { font-size:22px; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr);
+          gap:4px; padding:8px; }
+  .tile { cursor:pointer; position:relative; }
+  .tile img { width:100%; aspect-ratio:1; object-fit:cover; display:block;
+              border-radius:4px; transition:transform .1s; }
+  .tile.sel img { transform:scale(.85); outline:4px solid #1a73e8; }
+  .tile.sel::after { content:"\2713"; position:absolute; top:6px; left:6px;
+     background:#1a73e8; color:#fff; width:24px; height:24px;
+     border-radius:50%; text-align:center; line-height:24px; }
+  .footer { display:flex; justify-content:space-between; align-items:center;
+            padding:12px 16px; border-top:1px solid #eee; }
+  #result { font-weight:bold; min-height:1.2em; }
+  button { background:#1a73e8; color:#fff; border:0; border-radius:4px;
+           padding:10px 24px; font-size:14px; cursor:pointer; }
+  button:hover { background:#1765cc; }
+</style></head><body>
+<div class="captcha">
+  <div class="header"><small>Select all images with</small><b>Alice</b>
+    <small>Click verify once there are none left.</small></div>
+  <div class="grid"><div class="tile" data-i="0"><img src="img/00.jpg"></div>
+<div class="tile" data-i="1"><img src="img/01.jpg"></div>
+<div class="tile" data-i="2"><img src="img/02.jpg"></div>
+<div class="tile" data-i="3"><img src="img/03.jpg"></div>
+<div class="tile" data-i="4"><img src="img/04.jpg"></div>
+<div class="tile" data-i="5"><img src="img/05.jpg"></div>
+<div class="tile" data-i="6"><img src="img/06.jpg"></div>
+<div class="tile" data-i="7"><img src="img/07.jpg"></div>
+<div class="tile" data-i="8"><img src="img/08.jpg"></div></div>
+  <div class="footer"><span id="result"></span>
+    <button onclick="verify()">Verify</button></div>
+</div>
+<script>
+const targets = new Set([1, 6, 8]);
+document.querySelectorAll('.tile').forEach(t =>
+  t.onclick = () => t.classList.toggle('sel'));
+function verify() {
+  const sel = new Set([...document.querySelectorAll('.tile.sel')]
+    .map(t => +t.dataset.i));
+  const ok = sel.size === targets.size && [...sel].every(i => targets.has(i));
+  const r = document.getElementById('result');
+  r.textContent = ok ? "\u2705 Correct!" : "\u274c Try again";
+  r.style.color = ok ? "#188038" : "#d93025";
+}
+</script></body></html>
